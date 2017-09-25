@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scene/main.unity
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scene/circuit0.unity
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scene/circuit1.unity
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scene/circuit2.unity
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scene/circuit3.unity
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scene/circuit4.unity
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scene/circuit5.unity
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scene/circuit6.unity
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scene/circuit7.unity
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scene/circuit8.unity
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scene/circuit9.unity
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scene/countdown.unity
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scene/transition.unity
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scene/pause.unity
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scene/reaching.unity
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scene/end.unity
+    guid: 00000000000000000000000000000000

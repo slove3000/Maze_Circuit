@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="AxView.View.MazeCircuitView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:res="clr-namespace:AxLanguage;assembly=AxLanguage"
+             xmlns:conv="clr-namespace:AxView.Converters"
+             mc:Ignorable="d" 
+             MinWidth="1228" MinHeight="550">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.927*"/>
+            <RowDefinition Height="70"/>
+        </Grid.RowDefinitions>
+        <Border BorderBrush="Black" BorderThickness="0,1,0,0" Grid.ColumnSpan="3" Grid.Row="1">
+            <StackPanel Orientation="Horizontal" d:LayoutOverrides="Height" Margin="0" HorizontalAlignment="Right">
+                <Button Content="{x:Static res:Languages.REAplan_Precedent}" FontSize="20" Margin="10,0" Height="50" Width="150" Padding="0" Command="{Binding PreviousViewModelCommand}"/>
+                <Button Content="{x:Static res:Languages.REAplan_Accueil}" FontSize="20" Margin="10,0" Height="50" Width="150" Padding="0"  Command="{Binding MainViewModelCommand}"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

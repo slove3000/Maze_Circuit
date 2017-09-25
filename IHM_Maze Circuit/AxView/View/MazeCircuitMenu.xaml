@@ -1,0 +1,94 @@
+﻿<UserControl x:Class="AxView.View.MazeCircuitMenu"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:res="clr-namespace:AxLanguage;assembly=AxLanguage"
+             xmlns:oxy="http://oxyplot.org/wpf"
+             mc:Ignorable="d" 
+             MinWidth="1228" MinHeight="550">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="70"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,0" >
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical" IsEnabled="{Binding OptionsEnabled}">
+                    <RadioButton Content="Familiarisation" GroupName="Menu" Command="{Binding ChangeExerciceTypeCommand}" CommandParameter="1" />
+                    <RadioButton Content="Base Line" GroupName="Menu" Command="{Binding ChangeExerciceTypeCommand}" CommandParameter="2" />
+                    <RadioButton Content="Training" GroupName="Menu" Command="{Binding ChangeExerciceTypeCommand}" CommandParameter="3" />
+                    <RadioButton Content="Reaching" GroupName="Menu" Command="{Binding ChangeExerciceTypeCommand}" CommandParameter="4" />
+                    <RadioButton Content="New Circuit" GroupName="Menu" Command="{Binding ChangeExerciceTypeCommand}" CommandParameter="5" IsEnabled="{Binding NewCircuitEnabled}" />
+                </StackPanel>
+            </Border>
+            <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical" IsEnabled="{Binding MenuEnabled}" Margin="0,10,0,0">
+                <Button Content="Start" FontSize="20" Margin="0,0,0,10" Height="50" Width="150" Padding="0" Command="{Binding StartCommand}" Style="{DynamicResource ButtonBackgroundStyle}" Background="#FF659F5D"/>
+                <Button Content="Pause" FontSize="20" Margin="0,0,0,10" Height="50" Width="150" Padding="0" Command="{Binding PauseCommand}" />
+                <Button Content="Stop" FontSize="20" Height="50" Width="150" Padding="0" Margin="0,0,0,10" Command="{Binding StopCommand}" Style="{DynamicResource ButtonBackgroundStyle}" Background="#FFDC5252"/>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                    <Label Content="Viscosité" Width="80" />
+                    <Slider Minimum="0" Maximum="3" TickFrequency="1" Width="150" TickPlacement="BottomRight" IsSnapToTickEnabled="True" Name="SliderVisco" Value="{Binding Viscosite}"/>
+                    <Label Content="{Binding ElementName=SliderVisco, Path=Value, UpdateSourceTrigger=PropertyChanged}" Width="50" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" IsEnabled="{Binding CircuitsEnabled}">
+                    <Label Content="Circuits" Width="80" />
+                    <ItemsControl ItemsSource="{Binding CircuitsCheck}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate >
+                                <WrapPanel Orientation="Horizontal" MaxWidth="200" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <RadioButton GroupName="Circuits" Content="{Binding Text}" IsEnabled="{Binding Activated}" IsChecked="{Binding Checked}"  Margin="10,0,0,5" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+        
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,0" >
+                <oxy:Plot Title="Erreur" x:Name="PlotError" MaxHeight=" 400">
+                    <oxy:Plot.Axes>
+                        <oxy:LinearAxis Title="Répétition" Position="Bottom" Minimum="0" Maximum="{Binding MaxRepetionPlot}" />
+                        <oxy:LinearAxis Title="Erreur" Position="Left" Minimum="0" Maximum="0.5" />
+                    </oxy:Plot.Axes>
+                    <oxy:Plot.Series>
+                        <oxy:LineSeries ItemsSource="{Binding ErrorPlotPoint}" Color="Red" MarkerSize="3" MarkerStroke="Red" MarkerFill="Red" MarkerType="Circle" MarkerStrokeThickness="2"/>
+                    </oxy:Plot.Series>
+                </oxy:Plot>
+            </Border>
+            <Border Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,0,0" >
+                <oxy:Plot Title="Vitesse" x:Name="PlotSpeed" MaxHeight="400">
+                    <oxy:Plot.Axes>
+                        <oxy:LinearAxis Title="Répétition" Position="Bottom" Minimum="0" Maximum="{Binding MaxRepetionPlot}" />
+                        <oxy:LinearAxis Title="Vitesse" Position="Left" Minimum="0" Maximum="0.5" />
+                    </oxy:Plot.Axes>
+                    <oxy:Plot.Series>
+                        <oxy:LineSeries ItemsSource="{Binding VitessePlotPoint}" Color="Green" MarkerSize="3" MarkerStroke="Green" MarkerFill="Green" MarkerType="Circle" MarkerStrokeThickness="2"/>
+                    </oxy:Plot.Series>
+                </oxy:Plot>
+            </Border>
+        </Grid>
+        
+        <Border BorderBrush="Black" BorderThickness="0,1,0,0" Grid.Row="2">
+            <StackPanel Orientation="Horizontal" d:LayoutOverrides="Height" Margin="0" HorizontalAlignment="Right">
+                <Button Content="{x:Static res:Languages.REAplan_Precedent}" FontSize="20" Margin="10,0" Height="50" Width="150" Padding="0" Command="{Binding PreviousViewModelCommand}"/>
+                <Button Content="{x:Static res:Languages.REAplan_Accueil}" FontSize="20" Margin="10,0" Height="50" Width="150" Padding="0"  Command="{Binding HomeViewModelCommand}"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>
