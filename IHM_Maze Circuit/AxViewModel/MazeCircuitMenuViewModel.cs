@@ -665,7 +665,6 @@ namespace AxViewModel
                     }
                 }
                 this.canSendPos = true;// Lancement du mod et positionement du robot
-                frame = new FrameExerciceDataModel();
             }
         }
 
