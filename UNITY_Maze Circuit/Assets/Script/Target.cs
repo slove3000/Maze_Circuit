@@ -54,6 +54,9 @@ public class Target : MonoBehaviour {
     /// </summary>
     private float timeRemaining;
 
+    private CircleCollider2D myCollider;
+    private float colliderMaxRadius = 0.46f;
+
     void Awake()
     {
         // Trouve le game object game manager et instancie le field
@@ -64,11 +67,23 @@ public class Target : MonoBehaviour {
             Debug.Log("Game Manager trouvé dans target");
 
             _reachingManager = GameObject.Find("Reaching Manager").GetComponent<ReachingManager>();
+
+            myCollider = GetComponent<CircleCollider2D>();
+            if (myCollider != null)
+            {
+                ChangeColliderRadius(_gameManager.Config.GameZoom);
+            }
         }
         else
         {
             Debug.Log("Game Manager pas trouvé dans target");
         }
+    }
+
+    private void ChangeColliderRadius(int valuePercent)
+    {
+        float newRadius = (colliderMaxRadius / 100f) * (float)valuePercent;
+        myCollider.radius = newRadius;
     }
 
     void OnTriggerEnter2D(Collider2D other)
