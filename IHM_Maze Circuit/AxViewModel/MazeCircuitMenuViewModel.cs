@@ -40,6 +40,8 @@ namespace AxViewModel
 
         private int viscosite;
 
+        private int reachingRadius;
+
         private bool menuEnabled;
 
         private bool circuitsEnabled;
@@ -153,6 +155,16 @@ namespace AxViewModel
             {
                 viscosite = value;
                 RaisePropertyChanged("Viscosite");
+            }
+        }
+
+        public int ReachingRadius
+        {
+            get { return reachingRadius; }
+            set
+            {
+                reachingRadius = value;
+                RaisePropertyChanged("ReachingRadius");
             }
         }
 
@@ -302,7 +314,7 @@ namespace AxViewModel
                     game = new MazeCircuitGame(1, 0, this.IndexOfCircuitChecked() + 1);
                     break;
                 case TypeMazeGame.Reaching:
-                    game = new MazeCircuitGame(0, 0, 10);
+                    game = new MazeCircuitGame(0, ReachingRadius, 10);
                     break;
                 case TypeMazeGame.NewCircuit:
                     game = new MazeCircuitGame(0, 0, this.IndexOfCircuitChecked() + 1);

@@ -25,6 +25,10 @@
                     <RadioButton Content="Base Line" GroupName="Menu" Command="{Binding ChangeExerciceTypeCommand}" CommandParameter="2" />
                     <RadioButton Content="Training" GroupName="Menu" Command="{Binding ChangeExerciceTypeCommand}" CommandParameter="3" />
                     <RadioButton Content="Reaching" GroupName="Menu" Command="{Binding ChangeExerciceTypeCommand}" CommandParameter="4" />
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
+                        <Slider Minimum="15" Maximum="100" TickFrequency="1" Width="250" IsSnapToTickEnabled="True" Name="SliderReaching" Value="{Binding ReachingRadius}"/>
+                        <Label Content="{Binding ElementName=SliderReaching, Path=Value, UpdateSourceTrigger=PropertyChanged}" Width="50" />
+                    </StackPanel>
                     <RadioButton Content="New Circuit" GroupName="Menu" Command="{Binding ChangeExerciceTypeCommand}" CommandParameter="5" IsEnabled="{Binding NewCircuitEnabled}" />
                 </StackPanel>
             </Border>
