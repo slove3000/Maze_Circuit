@@ -83,6 +83,10 @@ public class LevelManager : MonoBehaviour {
             {
                 this.Repetition = 20;
             }
+            else if (_gameManager.Config.GameDifficulty == 2)
+            {
+                this.Repetition = 1;
+            }
 
             // Si la phase de jeu doit durer un temps suppérieur à 0 (!= infini)
             if (this.TimeExercice > 0)

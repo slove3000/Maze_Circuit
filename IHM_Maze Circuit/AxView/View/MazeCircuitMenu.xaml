@@ -30,6 +30,7 @@
                         <Label Content="{Binding ElementName=SliderReaching, Path=Value, UpdateSourceTrigger=PropertyChanged}" Width="50" />
                     </StackPanel>
                     <RadioButton Content="New Circuit" GroupName="Menu" Command="{Binding ChangeExerciceTypeCommand}" CommandParameter="5" IsEnabled="{Binding NewCircuitEnabled}" />
+                    <RadioButton Content="After" GroupName="Menu" Command="{Binding ChangeExerciceTypeCommand}" CommandParameter="6" />
                 </StackPanel>
             </Border>
             <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical" IsEnabled="{Binding MenuEnabled}" Margin="0,10,0,0">

@@ -26,6 +26,7 @@ namespace AxViewModel
         #region Field
         private double[] SIZE_SEG_CIRCUIT = new double[] { 0.0598, 0.0598, 0.13945, 0.13945, 0.2187, 0.13945, 0.0998, 0.1988, 0.0998, 0.1988, 0.0796 };
         private const double SIZE_SEG_REACHING = 0.195;
+        private const double SIZE_SEG_FAM = 0.1988;
         /// <summary>
         /// Instance du service de navigation
         /// </summary>
@@ -283,6 +284,11 @@ namespace AxViewModel
                     this.CircuitsCheck[this.lastCircuit].Checked = false;
                     this.MaxRepetionPlot = 3;
                     break;
+                case TypeMazeGame.After:
+                    this.CircuitsEnabled = true;
+                    this.ActiveAllCircuits();
+                    this.MaxRepetionPlot = 3;
+                    break;
                 default:
                     break;
             }
@@ -292,7 +298,7 @@ namespace AxViewModel
         {
             this.SendViscosite();
 
-            if (this.currentType == TypeMazeGame.BaseLine || this.currentType == TypeMazeGame.Training)
+            if (this.currentType == TypeMazeGame.BaseLine || this.currentType == TypeMazeGame.After || this.currentType == TypeMazeGame.Training)
             {
                 // Si le jeu est fait en training ou base line on peut retenir le circuit fait et ne plus le proposer pour le new circuit
                 this.lastCircuit = this.IndexOfCircuitChecked();
@@ -305,7 +311,7 @@ namespace AxViewModel
                 case TypeMazeGame.Null:
                     break;
                 case TypeMazeGame.Familiarisation:
-                    game = new MazeCircuitGame(0, 0, 0);
+                    game = new MazeCircuitGame(2, 0, this.IndexOfCircuitChecked());
                     break;
                 case TypeMazeGame.BaseLine:
                     game = new MazeCircuitGame(0, 0, this.IndexOfCircuitChecked() + 1);
@@ -317,6 +323,9 @@ namespace AxViewModel
                     game = new MazeCircuitGame(0, ReachingRadius, 10);
                     break;
                 case TypeMazeGame.NewCircuit:
+                    game = new MazeCircuitGame(0, 0, this.IndexOfCircuitChecked() + 1);
+                    break;
+                case TypeMazeGame.After:
                     game = new MazeCircuitGame(0, 0, this.IndexOfCircuitChecked() + 1);
                     break;
                 default:
@@ -624,7 +633,7 @@ namespace AxViewModel
         {
             pss.Pss.SendCommandFrame(CommandCodes.StreamingMod);
 
-            if (this.currentType != TypeMazeGame.Familiarisation)
+            if (this.currentType != TypeMazeGame.Null)
             {
                 this.canDoMath = true;
             }
@@ -682,7 +691,7 @@ namespace AxViewModel
 
         private bool Start_CanExecute()
         {
-            if (this.gameStarted || (this.IndexOfCircuitChecked() == -1 && (this.currentType == TypeMazeGame.BaseLine || this.currentType == TypeMazeGame.NewCircuit || this.currentType == TypeMazeGame.Training)))
+            if (this.gameStarted || (this.IndexOfCircuitChecked() == -1 && (this.currentType == TypeMazeGame.BaseLine || this.currentType == TypeMazeGame.After || this.currentType == TypeMazeGame.NewCircuit || this.currentType == TypeMazeGame.Training)))
             {
                 return false;
             }
@@ -742,7 +751,7 @@ namespace AxViewModel
             // Gestion des états de l'interface
             this.gameStarted = false;
             RaisePropertyChanged("OptionsEnabled");
-            if (this.currentType == TypeMazeGame.BaseLine || this.currentType == TypeMazeGame.Training || this.currentType == TypeMazeGame.NewCircuit)
+            if (this.currentType == TypeMazeGame.BaseLine || this.currentType == TypeMazeGame.After || this.currentType == TypeMazeGame.Training || this.currentType == TypeMazeGame.NewCircuit)
             {
                 this.CircuitsEnabled = true;
             }
@@ -777,6 +786,9 @@ namespace AxViewModel
                     index = this.CircuitsCheck.IndexOf(item);
                 }
             }
+
+            if (currentType == TypeMazeGame.Familiarisation)
+                return 0;
 
             return index;
         }
@@ -958,6 +970,10 @@ namespace AxViewModel
                     }
 
                     var indiceCircuit = this.IndexOfCircuitChecked() + 1;
+
+                    if (currentType == TypeMazeGame.Familiarisation)
+                        indiceCircuit = 0;
+
                     file.WriteLine(uniBi + " " + xGauche + " " + indiceCircuit + " " + this.Viscosite + System.Environment.NewLine);
 
                     this.firstSegment = false;
@@ -1166,6 +1182,10 @@ namespace AxViewModel
             {
                 size = SIZE_SEG_REACHING;
             }
+            else if (this.currentType == TypeMazeGame.Familiarisation)
+            {
+                size = SIZE_SEG_FAM;
+            }
             else
             {
                 size = SIZE_SEG_CIRCUIT[checkpoint];
@@ -1212,6 +1232,7 @@ namespace AxViewModel
         BaseLine = 2,
         Training = 3,
         Reaching = 4,
-        NewCircuit = 5
+        NewCircuit = 5,
+        After = 6
     }
 }

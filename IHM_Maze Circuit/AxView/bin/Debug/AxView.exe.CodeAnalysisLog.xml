@@ -12,7 +12,7 @@
          <Members>
           <Member Name="#.cctor()" Kind="Method" Static="True" Accessibility="Private" ExternallyVisible="False">
            <Messages>
-            <Message TypeName="RethrowToPreserveStackDetails" Category="Microsoft.Usage" CheckId="CA2200" Status="Active" Created="2018-03-20 12:32:57Z" FixCategory="NonBreaking">
+            <Message TypeName="RethrowToPreserveStackDetails" Category="Microsoft.Usage" CheckId="CA2200" Status="Active" Created="2018-04-03 12:10:41Z" FixCategory="NonBreaking">
              <Issue Certainty="95" Level="Error" Path="C:\Users\addenis\Documents\GitHub\Maze_Circuit\IHM_Maze Circuit\AxView\Resources\Elements" File="DynamicImageButton.cs" Line="47">'DynamicImageButton.DynamicImageButton()' lève à nouveau une exception interceptée et la spécifie de manière explicite en tant qu'argument. Utilisez 'throw' sans argument à la place, afin de conserver l'emplacement de la pile où l'exception à été levée pour la première fois.</Issue>
             </Message>
            </Messages>

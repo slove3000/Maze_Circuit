@@ -315,7 +315,7 @@ namespace AxViewModel
                     this.calibrY = e.PositionY;
 
                     this.pixelX = EchelleUtils.MiseEchelleXPosition2(e.PositionX);
-                    this.pixelY = 1080 - EchelleUtils.MiseEchelleYPosition2(e.PositionY);
+                    this.pixelY = EchelleUtils.MiseEchelleYPosition2(e.PositionY); //1080 -
                 }
             }
             else
