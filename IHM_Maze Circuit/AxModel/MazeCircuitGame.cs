@@ -232,6 +232,11 @@ namespace AxModel
             this.server.SetValue("HighScore", value);
         }
 
+        public void SetColor(int value)
+        {
+            this.server.SetValue("Color", value);
+        }
+
         public int GetAngle()
         {
             int angle = 0;

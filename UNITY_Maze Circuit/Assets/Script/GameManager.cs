@@ -57,8 +57,12 @@ public class GameManager : MonoBehaviour
     public ReaLabCommunication client;
 
     public ReaLabConfiguration Config { get; set; }
+    [HideInInspector]
+    public Color ColorFond;
+    [HideInInspector]
+    public Color ColorCurseur;
 
-	[HideInInspector]
+    [HideInInspector]
 	public bool inReaching = false;
 	[HideInInspector]
 	public float TimeInCircuit = 0f;
@@ -170,6 +174,37 @@ public class GameManager : MonoBehaviour
             if (this.Config != null)
             {
                 this.SetGameState(GameState.LevelLoading);
+
+                //Lecture de la couleur demandée
+                object color = client.GetValue("Color");
+                if (color != null)
+                {
+                    int newcolor = int.Parse(color.ToString());
+                    switch (newcolor)
+                    {
+                        case 1:
+                            ColorFond = new Color(49f / 255f, 77f / 255f, 121f / 255f, 0f);
+                            ColorCurseur = new Color(0f / 255f, 132f / 255f, 187f / 255f, 1f);
+                            break;
+                        case 2:
+                            ColorFond = new Color(255f / 255f, 255f / 255f, 255f / 255f, 0f);
+                            ColorCurseur = new Color(218f / 255f, 0f / 255f, 0f / 255f, 1f);
+                            break;
+                        case 3:
+                            ColorFond = new Color(107f / 255f, 177f / 255f, 255f / 255f, 0f);
+                            ColorCurseur = new Color(218f / 255f, 0f / 255f, 0f / 255f, 1f);
+                            break;
+                        default:
+                            ColorFond = new Color(49f / 255f, 77f / 255f, 121f / 255f, 0f);
+                            ColorCurseur = new Color(255f / 255f, 255f / 255f, 0f / 255f, 1f);
+                            break;
+                    }
+                }
+                else
+                {
+                    ColorFond = new Color(49f / 255f, 77f / 255f, 121f / 255f, 0f);
+                    ColorCurseur = new Color(0f / 255f, 132f / 255f, 187f / 255f, 1f);
+                }
 
                 if (this.Config.LevelToLoad < 10)
                 {

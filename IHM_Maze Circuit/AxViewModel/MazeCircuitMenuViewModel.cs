@@ -39,6 +39,11 @@ namespace AxViewModel
         /// </summary>
         private TypeMazeGame currentType;
 
+        /// <summary>
+        /// Code couleur en cours
+        /// </summary>
+        private TypeColors currentColor;
+
         private int viscosite;
 
         private int reachingRadius;
@@ -123,6 +128,7 @@ namespace AxViewModel
             this.PreviousViewModelCommand = new RelayCommand(this.GoBack);
             this.HomeViewModelCommand = new RelayCommand(this.GoHome);
             this.ChangeExerciceTypeCommand = new RelayCommand<int>(this.ChangeExerciceType);
+            this.ChangerCouleurCommand = new RelayCommand<int>(this.ChangerCouleur);
             this.StartCommand = new RelayCommand(this.StartGame, this.Start_CanExecute);
             this.StopCommand = new RelayCommand(this.StopGame, this.Stop_CanExecute);
             this.PauseCommand = new RelayCommand(this.PauseGame, this.Stop_CanExecute);
@@ -146,6 +152,7 @@ namespace AxViewModel
             this.ErrorPlotPoint = new List<DataPoint>();
             this.VitessePlotPoint = new List<DataPoint>();
             this.MaxRepetionPlot = 10;
+            this.currentColor = TypeColors.Default;
         }
 
         #region Properties
@@ -225,6 +232,7 @@ namespace AxViewModel
         public RelayCommand PreviousViewModelCommand { get; set; }
         public RelayCommand HomeViewModelCommand { get; set; }
         public RelayCommand<int> ChangeExerciceTypeCommand { get; set; }
+        public RelayCommand<int> ChangerCouleurCommand { get; set; }
         public RelayCommand StartCommand { get; set; }
         public RelayCommand StopCommand { get; set; }
         public RelayCommand PauseCommand { get; set; }
@@ -294,6 +302,15 @@ namespace AxViewModel
             }
         }
 
+        /// <summary>
+        /// Change l'interface en fonction du type d'exercice séléctionné
+        /// </summary>
+        /// <param name="type"></param>
+        private void ChangerCouleur(int type)
+        {
+            this.currentColor = (TypeColors)type;
+        }
+
         private void StartGame()
         {
             this.SendViscosite();
@@ -357,6 +374,8 @@ namespace AxViewModel
             this.pss.Pss.StreamingDone += new EventHandler(Pss_StreamingDone);
 
             this.newNameFile = this.FindFileName(this.pathToFile, this.currentType.ToString(), ".txt");
+
+            this.game.SetColor((int)this.currentColor);
         }
 
         void Pss_StreamingDone(object sender, EventArgs e)
@@ -1234,5 +1253,13 @@ namespace AxViewModel
         Reaching = 4,
         NewCircuit = 5,
         After = 6
+    }
+
+    enum TypeColors
+    {
+        Null = 0,
+        Default = 1,
+        WhiteRed = 2,
+        BlueYellow = 3
     }
 }

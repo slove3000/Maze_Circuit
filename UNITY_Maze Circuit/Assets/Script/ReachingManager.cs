@@ -76,12 +76,23 @@ public class ReachingManager : MonoBehaviour {
         if (_gameManager != null)
         {
             Debug.Log("Game Manager trouvé dans reaching Manager");
+            UpdateColors();
             this.startingPoint = GameObject.Find("Starting Point").GetComponent<Transform>();
         }
         else
         {
             Debug.Log("Game Manager pas trouvé dans reaching Manager");
         }
+    }
+
+    private void UpdateColors()
+    {
+        //Couleur de la caméra
+        Camera.main.clearFlags = CameraClearFlags.SolidColor;
+        Camera.main.backgroundColor = _gameManager.ColorFond;
+
+        //Couleur Player
+        Player.gameObject.GetComponent<SpriteRenderer>().color = _gameManager.ColorCurseur;
     }
 
     void Update()
