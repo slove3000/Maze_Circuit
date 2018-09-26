@@ -36,7 +36,7 @@ public class TimeInCircuit : MonoBehaviour {
 				if (timeInCircuit > 60f)
 					timeInCircuit = 60f;
 				_gameManager.TimeInCircuit = timeInCircuit;
-			} else if (_gameManager.State != GameState.Playing) {
+			} else if ((_gameManager.State != GameState.Playing) && (_gameManager.State != GameState.Pause)) {
                 inside = true;
 				timeInCircuit = 0f;
 			}

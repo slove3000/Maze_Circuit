@@ -92,6 +92,8 @@ public class GameManager : MonoBehaviour
 
         // Le game manager ne sera pas détruit au chargement d'une nouvelle scène
         DontDestroyOnLoad(this.gameObject);
+
+        Application.runInBackground = true;
     }
 
     void Start()

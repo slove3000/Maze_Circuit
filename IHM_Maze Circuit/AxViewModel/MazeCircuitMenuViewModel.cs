@@ -94,6 +94,9 @@ namespace AxViewModel
         private double pixelX;
         private double pixelY;
 
+        private bool inPause;
+        private LastOrder lastOrder;
+
         /// <summary>
         /// Frame de l'exercice en cours
         /// </summary>
@@ -153,6 +156,7 @@ namespace AxViewModel
             this.VitessePlotPoint = new List<DataPoint>();
             this.MaxRepetionPlot = 10;
             this.currentColor = TypeColors.Default;
+            this.inPause = false;
         }
 
         #region Properties
@@ -385,6 +389,7 @@ namespace AxViewModel
                 Application.Current.Dispatcher.Invoke(new Action(() =>
                 {
                     pss.Pss.SendExerciceFrame(frame);
+                    lastOrder = LastOrder.Positioning;
 
                 }), DispatcherPriority.Normal);
             }
@@ -639,6 +644,7 @@ namespace AxViewModel
 
             // Repositionnement du robot sur la ligne de départ
             pss.Pss.SendExerciceFrame(frame);
+            lastOrder = LastOrder.Positioning;
         }
 
         void game_onCheckpointReached(object obj, MessageEvent messageArgs)
@@ -651,6 +657,7 @@ namespace AxViewModel
         void game_onLevelStarted(object obj, EventArgs messageArgs)
         {
             pss.Pss.SendCommandFrame(CommandCodes.StreamingMod);
+            lastOrder = LastOrder.StreamingMod;
 
             if (this.currentType != TypeMazeGame.Null)
             {
@@ -787,7 +794,24 @@ namespace AxViewModel
             {
                 this.canSendPos = !this.canSendPos;
                 this.canDoMath = !this.canDoMath;
+                this.inPause = !this.inPause;
                 this.game.PauseGame();
+
+                if (this.inPause)
+                {
+                    this.pss.Pss.SendCommandFrame(CommandCodes.STOPnv);
+                }
+                else
+                {
+                    if (lastOrder == LastOrder.Positioning)
+                    {
+                        pss.Pss.SendExerciceFrame(frame);
+                    }
+                    else if (lastOrder == LastOrder.StreamingMod)
+                    {
+                        pss.Pss.SendCommandFrame(CommandCodes.StreamingMod);
+                    }
+                }
             }
         }
 
@@ -826,7 +850,7 @@ namespace AxViewModel
             }
         }
 
-        private PointData[] ShiftCircuit(PointData[] path)
+        private PointData[] ShiftCircuitBackup(PointData[] path)
         {
             PointData[] newPath = new PointData[path.Length];
 
@@ -923,6 +947,64 @@ namespace AxViewModel
                 }
 
                 var newPoint = new PointData(coordX + deltaX, coordY + deltaY);
+                newPath[i] = newPoint;
+            }
+
+            return newPath;
+        }
+
+        private PointData[] ShiftCircuit(PointData[] path)
+        {
+            PointData[] newPath = new PointData[path.Length];
+
+            double deltaX = 0.0;
+            double deltaY = 0.0;
+            
+            for (int i = 0; i < path.Length; i++)
+            {
+                double coordX = 0.0;
+                double coordY = 0.0;
+
+                if (Singleton.UniBi)
+                {
+                    // Unimanuel
+                    if (Singleton.MainGaucheX)
+                    {
+                        // gauche
+                        coordX = EchelleUtils.MiseEchelleEnvoyerX(path[i].Xd);
+                        coordY = EchelleUtils.MiseEchelleEnvoyerY(path[i].Yd);
+                    }
+                    else
+                    {
+                        // droite
+                        coordX = EchelleUtils.MiseEchelleEnvoyerX2(path[i].Xd);
+                        coordY = EchelleUtils.MiseEchelleEnvoyerY2(path[i].Yd);
+                    }
+                }
+                else
+                {
+                    // Bimanuel
+                    if (Singleton.MainGaucheX)
+                    {
+                        // gauche
+                        coordX = EchelleUtils.MiseEchelleEnvoyerX(path[i].Xd);
+                        coordY = EchelleUtils.MiseEchelleEnvoyerY2(path[i].Yd);
+                    }
+                    else
+                    {
+                        // droite
+                        coordX = EchelleUtils.MiseEchelleEnvoyerX2(path[i].Xd);
+                        coordY = EchelleUtils.MiseEchelleEnvoyerY(path[i].Yd);
+                    }
+                }
+
+                if (i == 0)
+                {
+                    deltaX = coordX - Singleton.CalibrX;
+                    deltaY = coordY - Singleton.CalibrY;
+                }
+
+                var newPoint = new PointData(coordX - deltaX, coordY - deltaY);
                 newPath[i] = newPoint;
             }
 
@@ -1261,5 +1343,11 @@ namespace AxViewModel
         Default = 1,
         WhiteRed = 2,
         BlueYellow = 3
+    }
+
+    enum LastOrder
+    {
+        StreamingMod = 0,
+        Positioning = 1
     }
 }

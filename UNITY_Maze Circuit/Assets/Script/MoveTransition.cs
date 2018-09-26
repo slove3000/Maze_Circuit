@@ -105,14 +105,14 @@ public class MoveTransition : MonoBehaviour {
 		}
 
         // Changement du score
-        tempScore = Mathf.MoveTowards(tempScore, score, 40f * Time.deltaTime);
+        tempScore = Mathf.MoveTowards(tempScore, score, (float)((float)score/15f) * Time.deltaTime);
 
         if (this.ScoreTxt != null)
         {
             ScoreTxt.text = Mathf.RoundToInt(tempScore).ToString();
         }
 
-        tempHighScore = Mathf.MoveTowards(tempHighScore, highScore, 40f * Time.deltaTime);
+        tempHighScore = Mathf.MoveTowards(tempHighScore, highScore, (float)((float)highScore / 15f) * Time.deltaTime);
         HighScoreTxt.text = Mathf.RoundToInt(tempHighScore).ToString();
 
         // L'ecran de transition ne doit se deplacer que dans le state de move transistion

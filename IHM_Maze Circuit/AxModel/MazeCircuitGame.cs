@@ -87,17 +87,17 @@ namespace AxModel
                 this.gameProcess.Kill();
             }
             // Trouve le handler de la fenetre mainP
-            var handler = this.GetHandle("ReaPlan patient");
+            //var handler = this.GetHandle("ReaPlan patient");
             // Creation du process du jeu
             this.gameProcess = new Process();
             this.gameProcess.StartInfo.FileName = PATHTOGAME;
-            this.gameProcess.StartInfo.Arguments = "-parentHWND " + handler.ToInt32() + " " + Environment.CommandLine;
-            this.gameProcess.StartInfo.UseShellExecute = true;
-            this.gameProcess.StartInfo.CreateNoWindow = true;
+            //this.gameProcess.StartInfo.Arguments = "-parentHWND " + handler.ToInt32() + " " + Environment.CommandLine;
+            //this.gameProcess.StartInfo.UseShellExecute = true;
+            //this.gameProcess.StartInfo.CreateNoWindow = true;
             this.gameProcess.Start();
             this.gameProcess.WaitForInputIdle();
 
-            EnumChildWindows(handler, this.WindowEnum, IntPtr.Zero);
+            //EnumChildWindows(handler, this.WindowEnum, IntPtr.Zero);
         }
 
         void server_onLevelStopped(object obj, EventArgs messageArgs)
